@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as Card from '$lib/components/ui/card';
 	import { enhance } from '$app/forms';
 
 	export let data;
@@ -9,9 +10,9 @@
 
 {#if !data.user}
 	<p>You are not signed in</p>
-  <a href="/auth/sign-in">Sign In</a>
+	<a href="/auth/sign-in">Sign In</a>
 {:else}
-	<p>You are signed in</p>
+	<p>Hi, {data.user.username}!</p>
 	<form method="post" use:enhance>
 		<button>Sign out</button>
 	</form>
