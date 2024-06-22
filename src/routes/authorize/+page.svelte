@@ -14,14 +14,14 @@
 		<Tabs.Trigger value="signup">Sign Up</Tabs.Trigger>
 		<Tabs.Trigger value="signin">Sign In</Tabs.Trigger>
 	</Tabs.List>
-	
+
 	<Tabs.Content value="signup">
 		<Card.Root class="max-w-xl">
 			<Card.Header>
 				<Card.Title>Sign Up</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<SignUpForm data={data.form} />
+				<SignUpForm data={data.signUpForm} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
@@ -32,7 +32,7 @@
 				<Card.Title>Sign In</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<SignInForm data={data.form} />
+				<SignInForm data={data.signInForm} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>

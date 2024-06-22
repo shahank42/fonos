@@ -15,6 +15,6 @@
 {:else}
 	<p>Hi, {data.user.username}!</p>
 	<form method="post" use:enhance>
-		<Button>Sign out</Button>
+		<Button type="submit">Sign out</Button>
 	</form>
 {/if}

@@ -1,4 +1,4 @@
-import { signUpFormSchema } from '$lib/zod/schema';
+import { signInFormSchema, signUpFormSchema } from '$lib/zod/schema';
 import { userTable } from '../../lib/server/db/schema/auth';
 import { fail, redirect } from '@sveltejs/kit';
 import { generateIdFromEntropySize } from 'lucia';
@@ -7,13 +7,14 @@ import { hash, verify } from '@node-rs/argon2';
 import type { Actions, PageServerLoad } from './$types';
 import { lucia } from '$lib/server/db/auth/lucia';
 import { db } from '$lib/server/db/db';
-import { superValidate } from 'sveltekit-superforms';
+import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async () => {
 	return {
-		form: await superValidate(zod(signUpFormSchema))
+		signUpForm: await superValidate(zod(signUpFormSchema)),
+		signInForm: await superValidate(zod(signInFormSchema))
 	};
 };
 
@@ -50,28 +51,16 @@ export const actions: Actions = {
 	},
 
 	signin: async (event) => {
-		const formData = await event.request.formData();
-		const username = formData.get('username');
-		const password = formData.get('password');
-
-		if (
-			typeof username !== 'string' ||
-			username.length < 3 ||
-			username.length > 31 ||
-			!/^[a-z0-9_-]+$/.test(username)
-		) {
-			return fail(400, {
-				message: 'Invalid username'
-			});
-		}
-		if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
-			return fail(400, {
-				message: 'Invalid password'
-			});
+		const signInForm = await superValidate(event, zod(signInFormSchema));
+		if (!signInForm.valid) {
+			return fail(400, { signInForm });
 		}
 
 		const existingUser = (
-			await db.select().from(userTable).where(eq(userTable.username, username.toLowerCase()))
+			await db
+				.select()
+				.from(userTable)
+				.where(eq(userTable.username, signInForm.data.username.toLowerCase()))
 		)[0];
 		if (!existingUser) {
 			// NOTE:
@@ -88,16 +77,14 @@ export const actions: Actions = {
 			});
 		}
 
-		const validPassword = await verify(existingUser.password as string, password, {
+		const validPassword = await verify(existingUser.password as string, signInForm.data.password, {
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
 			parallelism: 1
 		});
 		if (!validPassword) {
-			return fail(400, {
-				message: 'Incorrect username or password'
-			});
+			return setError(signInForm, 'password', 'Incorrect username or password');
 		}
 
 		const session = await lucia.createSession(existingUser.id, {});
