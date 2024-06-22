@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/ui/button/button.svelte';
 
 	export let data;
 </script>
@@ -10,10 +11,10 @@
 
 {#if !data.user}
 	<p>You are not signed in</p>
-	<a href="/auth/sign-in">Sign In</a>
+	<a href="/authorize">Sign In</a>
 {:else}
 	<p>Hi, {data.user.username}!</p>
 	<form method="post" use:enhance>
-		<button>Sign out</button>
+		<Button>Sign out</Button>
 	</form>
 {/if}
