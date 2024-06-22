@@ -10,3 +10,5 @@
 	<input type="password" name="password" id="password" /><br />
 	<button>Continue</button>
 </form>
+
+<p>No account? <a href="/auth/sign-up">Sign Up</a></p>
