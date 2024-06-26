@@ -35,6 +35,11 @@
 <h1>{data.streamData.title}</h1>
 <p>{data.streamData.description}</p>
 
+{#if data.userIsCreator}
+	<p>You are live!</p>
+	<p>Share this url to another user to let them tune in</p>
+{/if}
+
 {#if !data.userIsCreator}
 	<Button
 		onclick={() => {
