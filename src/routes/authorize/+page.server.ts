@@ -11,7 +11,11 @@ import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { eq } from 'drizzle-orm';
 
-export const load: PageServerLoad = async () => {
+let redirectTo = ""
+export const load: PageServerLoad = async ({ locals, url }) => {
+	if (locals.user) redirect(301, '/');
+	redirectTo = url.searchParams.get('redirectTo') || '';
+
 	return {
 		signUpForm: await superValidate(zod(signUpFormSchema)),
 		signInForm: await superValidate(zod(signInFormSchema))
@@ -47,7 +51,7 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, '/');
+		redirect(302, `${redirectTo}`);
 	},
 
 	signin: async (event) => {
@@ -94,6 +98,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, '/');
+		redirect(302, `${redirectTo}`);
 	}
 };
