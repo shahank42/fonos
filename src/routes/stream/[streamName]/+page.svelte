@@ -33,12 +33,14 @@
 </script>
 
 <h1>{data.streamData.title}</h1>
-<h2>{data.streamData.creator}'s Stream</h2>
+<p>{data.streamData.description}</p>
 
-<Button
-	onclick={() => {
-		room.startAudio();
-	}}>Tune in!</Button
->
+{#if !data.userIsCreator}
+	<Button
+		onclick={() => {
+			room.startAudio();
+		}}>Tune in to {data.streamData.creator}'s stream!</Button
+	>
+{/if}
 
 <div class="" id="audio-div"></div>
