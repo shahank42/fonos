@@ -20,7 +20,7 @@
 
 		await room.connect(PUBLIC_LIVEKIT_SERVER_URL, token);
 
-		await room.localParticipant.setMicrophoneEnabled(true);
+		if (data.userIsCreator) await room.localParticipant.setMicrophoneEnabled(true);
 
 		console.log(data.userIsCreator);
 	});
