@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_LIVEKIT_SERVER_URL } from '$env/static/public';
-	import { Room } from 'livekit-client';
+	import { Room, RoomEvent } from 'livekit-client';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
@@ -24,7 +24,14 @@
 
 		console.log(data.userIsCreator);
 	});
+
+	room.on(RoomEvent.TrackSubscribed, (track) => {
+		const element = track.attach();
+		document.getElementById('audio-div')?.appendChild(element);
+	});
 </script>
 
 <h1>{data.streamData.title}</h1>
 <h2>{data.streamData.creator}'s Stream</h2>
+
+<div class="" id="audio-div"></div>
