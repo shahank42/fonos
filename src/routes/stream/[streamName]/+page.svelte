@@ -3,6 +3,7 @@
 	import { Room, RoomEvent } from 'livekit-client';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import Button from '$lib/components/ui/button/button.svelte';
 
 	export let data: PageData;
 	const room = new Room();
@@ -33,5 +34,11 @@
 
 <h1>{data.streamData.title}</h1>
 <h2>{data.streamData.creator}'s Stream</h2>
+
+<Button
+	onclick={() => {
+		room.startAudio();
+	}}>Tune in!</Button
+>
 
 <div class="" id="audio-div"></div>
