@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const streamData = await db
 		.select()
 		.from(streamsTable)
-		.where(eq(params.streamName, streamsTable.name));
+		.where(eq(streamsTable.name, params.streamName));
 
 	return {
 		userIsCreator: streamData[0].creator === locals.user?.username,
