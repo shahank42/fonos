@@ -1,7 +1,9 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card';
+	// import * as Card from '$lib/components/ui/card';
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { cn } from '$lib/utils';
+	import { buttonVariants } from '$lib/components/ui/button';
 
 	export let data;
 </script>
@@ -17,4 +19,6 @@
 	<form method="post" use:enhance>
 		<Button type="submit">Sign out</Button>
 	</form>
+
+	<a href="/new-stream" class={cn(buttonVariants({ variant: 'link' }))}>Create a stream!</a>
 {/if}

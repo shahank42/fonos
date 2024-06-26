@@ -8,6 +8,13 @@
       "when": 1719087299204,
       "tag": "0000_ambiguous_luke_cage",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1719401783277,
+      "tag": "0001_bizarre_jack_flag",
+      "breakpoints": true
     }
   ]
 }
