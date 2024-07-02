@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card';
+	import * as Accordion from '$lib/components/ui/accordion/index.js';
 	import ChatComponent from '$lib/components/chat-component.svelte';
 	import { sendMessage, setupChat, type ReceivedChatMessage } from '@livekit/components-core';
 	import ListenerControls from '$lib/components/listener-controls.svelte';
@@ -39,10 +40,6 @@
 		const element = track.attach();
 		document.getElementById('audio-div')?.appendChild(element);
 	});
-
-	$effect(() => {
-		console.log(chatInterfaceHeightOffset);
-	});
 </script>
 
 <div class="flex h-[100dvh] flex-col">
@@ -51,9 +48,6 @@
 			<Card.Header>
 				<Card.Description class="font-semibold">@{data.streamData.creator}</Card.Description>
 				<Card.Title class="text-2xl">{data.streamData.title}</Card.Title>
-				<Card.Description>{data.streamData.description}</Card.Description>
-			</Card.Header>
-			<Card.Content>
 				{#if data.userIsCreator}
 					<p>You are live!</p>
 					<p>Share this url to another user to let them tune in</p>
@@ -61,7 +55,18 @@
 				{#if !data.userIsCreator}
 					<ListenerControls {room} />
 				{/if}
-			</Card.Content>
+			</Card.Header>
+
+			<Accordion.Root>
+				<Accordion.Item value="item-1">
+					<Accordion.Trigger class="px-6">Description</Accordion.Trigger>
+					<Accordion.Content>
+						<Card.Content>
+							<Card.Description>{data.streamData.description}</Card.Description>
+						</Card.Content>
+					</Accordion.Content>
+				</Accordion.Item>
+			</Accordion.Root>
 		</Card.Root>
 	</div>
 
