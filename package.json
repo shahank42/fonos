@@ -40,6 +40,7 @@
   "type": "module",
   "dependencies": {
     "@libsql/client": "^0.6.2",
+    "@livekit/components-core": "^0.10.4",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "bits-ui": "^0.21.10",
     "clsx": "^2.1.1",

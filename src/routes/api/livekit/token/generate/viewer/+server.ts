@@ -9,7 +9,7 @@ export async function GET({ url }) {
   const apiSecret = LIVEKIT_API_SECRET;
 
   const at = new AccessToken(apiKey, apiSecret, { identity: creatorName });
-  at.addGrant({ room: roomName, roomJoin: true, canPublish: false, canSubscribe: true });
+  at.addGrant({ room: roomName, roomJoin: true, canPublish: true, canSubscribe: true });
 
   return new Response(await at.toJwt());
 }

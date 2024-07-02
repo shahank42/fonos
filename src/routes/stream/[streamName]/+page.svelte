@@ -4,9 +4,13 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Card from '$lib/components/ui/card';
+	import ChatComponent from '$lib/components/chat-component.svelte';
+	import { sendMessage, setupChat, type ReceivedChatMessage } from '@livekit/components-core';
 
 	export let data: PageData;
 	const room = new Room();
+	const chatService = setupChat(room, { channelTopic: data.streamData.title });
 
 	onMount(async () => {
 		let token = '';
@@ -32,8 +36,12 @@
 	});
 </script>
 
-<h1>{data.streamData.title}</h1>
-<p>{data.streamData.description}</p>
+<Card.Root>
+	<Card.Header>
+		<Card.Title>{data.streamData.title}</Card.Title>
+		<Card.Description>{data.streamData.description}</Card.Description>
+	</Card.Header>
+</Card.Root>
 
 {#if data.userIsCreator}
 	<p>You are live!</p>
@@ -47,5 +55,7 @@
 		}}>Tune in to {data.streamData.creator}'s stream!</Button
 	>
 {/if}
+
+<ChatComponent {chatService} />
 
 <div class="" id="audio-div"></div>
