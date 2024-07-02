@@ -36,7 +36,7 @@
 			{#if message.from}
 				<div
 					class={cn('flex items-baseline gap-2.5 px-4 py-[1px]', {
-						'bg-secondary text-secondary-foreground': data.userIsCreator
+						'bg-secondary text-secondary-foreground': message.from.identity === data.user.username
 					})}
 				>
 					<span class="text-secondary-foreground">
@@ -72,7 +72,6 @@
 				class={cn('h-10 rounded-bl-full rounded-tl-full px-4', {
 					'rounded-br-full rounded-tr-full': currentMessage === ''
 				})}
-				
 			/>
 			{#if currentMessage !== ''}
 				<Button size="icon" class="size-10 rounded-br-full rounded-tr-full" type="submit">
