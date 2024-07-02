@@ -24,13 +24,12 @@
 	});
 </script>
 
-<div class={`flex h-full flex-col overflow-y-scroll`} bind:this={messageScrollNode}>
+<div class="flex h-full flex-col overflow-y-scroll bg-secondary text-secondary-foreground" bind:this={messageScrollNode}>
 	<div class="flex flex-1 flex-col"></div>
 	{#each messages as message}
 		{#if message.from}
-			<Separator class="my-2" />
-			<div class="text-md mb-1 flex items-baseline gap-2 px-6">
-				<span class="font-semibold">
+			<div class="text-lg mb-1 flex items-baseline gap-2 px-4 py-0.5">
+				<span class="font-bold">
 					{message.from.identity}:
 				</span>
 				<span class="flex flex-wrap break-all leading-tight">
@@ -59,7 +58,7 @@
 				type="text"
 				placeholder="Enter Message..."
 				bind:value={currentMessage}
-				class="h-14 text-lg"
+				class="h-14 text-lg bg-secondary text-secondary-foreground"
 			/>
 			{#if currentMessage !== ''}
 				<Button size="icon" class="size-14" type="submit">

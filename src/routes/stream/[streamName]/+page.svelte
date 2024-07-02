@@ -44,7 +44,7 @@
 
 <div class="flex h-[100dvh] flex-col">
 	<div bind:clientHeight={chatInterfaceHeightOffset} class="">
-		<Card.Root>
+		<Card.Root class="">
 			<Card.Header>
 				<Card.Description class="font-semibold">@{data.streamData.creator}</Card.Description>
 				<Card.Title class="text-2xl">{data.streamData.title}</Card.Title>
@@ -59,7 +59,7 @@
 
 			<Accordion.Root>
 				<Accordion.Item value="item-1">
-					<Accordion.Trigger class="px-6">Description</Accordion.Trigger>
+					<Accordion.Trigger class="px-4">Description</Accordion.Trigger>
 					<Accordion.Content>
 						<Card.Content>
 							<Card.Description>{data.streamData.description}</Card.Description>
