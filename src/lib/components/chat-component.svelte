@@ -6,8 +6,11 @@
 	import { Button } from './ui/button';
 	import IcRoundSend from './icons/IcRoundSend.svelte';
 	import { Separator } from './ui/separator';
+	import { cn } from '$lib/utils';
+	import type { PageData } from '../../routes/stream/[streamName]/$types';
 
-	let { chatService }: { chatService: ReturnType<typeof setupChat> } = $props();
+	let { chatService, data }: { chatService: ReturnType<typeof setupChat>; data: PageData } =
+		$props();
 
 	let messages = $state<ReceivedChatMessage[]>([] as ReceivedChatMessage[]);
 	let currentMessage = $state<string>('');
@@ -15,6 +18,8 @@
 	chatService.messageObservable.subscribe((_messages) => {
 		messages = _messages;
 	});
+
+	let messageInput = $state<HTMLInputElement | null>(null);
 
 	let messageScrollNode = $state<HTMLElement | null>(null);
 	$effect(() => {
@@ -24,25 +29,31 @@
 	});
 </script>
 
-<div class="flex h-full flex-col overflow-y-scroll bg-secondary text-secondary-foreground" bind:this={messageScrollNode}>
+<div class="flex h-full flex-col overflow-y-scroll" bind:this={messageScrollNode}>
 	<div class="flex flex-1 flex-col"></div>
-	{#each messages as message}
-		{#if message.from}
-			<div class="text-lg mb-1 flex items-baseline gap-2 px-4 py-0.5">
-				<span class="font-bold">
-					{message.from.identity}:
-				</span>
-				<span class="flex flex-wrap break-all leading-tight">
-					{message.message}
-				</span>
-			</div>
-		{/if}
-	{/each}
+	<div class="flex flex-col">
+		{#each messages as message}
+			{#if message.from}
+				<div
+					class={cn('flex items-baseline gap-2.5 px-4 py-[1px]', {
+						'bg-secondary text-secondary-foreground': data.userIsCreator
+					})}
+				>
+					<span class="text-secondary-foreground">
+						{message.from.identity}:
+					</span>
+					<span class="flex flex-wrap break-all leading-tight">
+						{message.message}
+					</span>
+				</div>
+			{/if}
+		{/each}
+	</div>
 </div>
 
 <Card.Root class="">
 	<Card.Header>
-		<Card.Description class="">Live chat - remember to be respectful!</Card.Description>
+		<Card.Description class="text-sm">Live chat - remember to be respectful!</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<form
@@ -58,11 +69,14 @@
 				type="text"
 				placeholder="Enter Message..."
 				bind:value={currentMessage}
-				class="h-14 text-lg bg-secondary text-secondary-foreground"
+				class={cn('h-10 rounded-bl-full rounded-tl-full px-4', {
+					'rounded-br-full rounded-tr-full': currentMessage === ''
+				})}
+				
 			/>
 			{#if currentMessage !== ''}
-				<Button size="icon" class="size-14" type="submit">
-					<IcRoundSend class="size-8" />
+				<Button size="icon" class="size-10 rounded-br-full rounded-tr-full" type="submit">
+					<IcRoundSend class="size-6" />
 				</Button>
 			{/if}
 		</form>

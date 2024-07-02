@@ -9,6 +9,7 @@
 	import ChatComponent from '$lib/components/chat-component.svelte';
 	import { sendMessage, setupChat, type ReceivedChatMessage } from '@livekit/components-core';
 	import ListenerControls from '$lib/components/listener-controls.svelte';
+	import CreatorControls from '$lib/components/creator-controls.svelte';
 
 	// export let data: PageData;
 	let { data }: { data: PageData } = $props();
@@ -42,21 +43,23 @@
 	});
 </script>
 
-<div class="flex h-[100dvh] flex-col">
+<div data-vaul-drawer-wrapper class="flex h-[100dvh] flex-col">
 	<div bind:clientHeight={chatInterfaceHeightOffset} class="">
-		<Card.Root class="">
-			<Card.Header>
-				<Card.Description class="font-semibold">@{data.streamData.creator}</Card.Description>
-				<Card.Title class="text-2xl">{data.streamData.title}</Card.Title>
+		<Card.Root class="shadow-none">
+			<Card.Header class="flex flex-col gap-4">
+				<div class="flex flex-col">
+					<Card.Description class="font-semibold">@{data.streamData.creator}</Card.Description>
+					<Card.Title class="text-2xl">{data.streamData.title}</Card.Title>
+					<Card.Description>{data.streamData.description}</Card.Description>
+				</div>
 				{#if data.userIsCreator}
-					<p>You are live!</p>
-					<p>Share this url to another user to let them tune in</p>
+					<CreatorControls {room} />
 				{/if}
 				{#if !data.userIsCreator}
 					<ListenerControls {room} />
 				{/if}
 			</Card.Header>
-
+			<!-- 
 			<Accordion.Root>
 				<Accordion.Item value="item-1">
 					<Accordion.Trigger class="px-4">Description</Accordion.Trigger>
@@ -66,12 +69,12 @@
 						</Card.Content>
 					</Accordion.Content>
 				</Accordion.Item>
-			</Accordion.Root>
+			</Accordion.Root> -->
 		</Card.Root>
 	</div>
 
 	<div class="flex flex-col" style:height={`calc(100dvh - ${chatInterfaceHeightOffset}px)`}>
-		<ChatComponent {chatService} />
+		<ChatComponent {chatService} {data} />
 	</div>
 
 	<div class="" id="audio-div"></div>
