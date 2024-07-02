@@ -36,7 +36,7 @@
 			{#if message.from}
 				<div
 					class={cn('flex items-baseline gap-2.5 px-4 py-[1px]', {
-						'bg-secondary text-secondary-foreground': message.from.identity === data.user.username
+						'bg-secondary text-secondary-foreground': message.from.identity === data.streamData.creator,
 					})}
 				>
 					<span class="text-secondary-foreground">
