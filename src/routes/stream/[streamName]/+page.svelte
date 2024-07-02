@@ -7,10 +7,15 @@
 	import * as Card from '$lib/components/ui/card';
 	import ChatComponent from '$lib/components/chat-component.svelte';
 	import { sendMessage, setupChat, type ReceivedChatMessage } from '@livekit/components-core';
+	import ListenerControls from '$lib/components/listener-controls.svelte';
 
-	export let data: PageData;
+	// export let data: PageData;
+	let { data }: { data: PageData } = $props();
+
 	const room = new Room();
 	const chatService = setupChat(room, { channelTopic: data.streamData.title });
+
+	let chatInterfaceHeightOffset = $state(0);
 
 	onMount(async () => {
 		let token = '';
@@ -27,35 +32,42 @@
 
 		if (data.userIsCreator) await room.localParticipant.setMicrophoneEnabled(true);
 
-		console.log(data.userIsCreator);
+		// room.startAudio();
 	});
 
 	room.on(RoomEvent.TrackSubscribed, (track) => {
 		const element = track.attach();
 		document.getElementById('audio-div')?.appendChild(element);
 	});
+
+	$effect(() => {
+		console.log(chatInterfaceHeightOffset);
+	});
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>{data.streamData.title}</Card.Title>
-		<Card.Description>{data.streamData.description}</Card.Description>
-	</Card.Header>
-</Card.Root>
+<div class="flex h-[100dvh] flex-col">
+	<div bind:clientHeight={chatInterfaceHeightOffset} class="">
+		<Card.Root>
+			<Card.Header>
+				<Card.Description class="font-semibold">@{data.streamData.creator}</Card.Description>
+				<Card.Title class="text-2xl">{data.streamData.title}</Card.Title>
+				<Card.Description>{data.streamData.description}</Card.Description>
+			</Card.Header>
+			<Card.Content>
+				{#if data.userIsCreator}
+					<p>You are live!</p>
+					<p>Share this url to another user to let them tune in</p>
+				{/if}
+				{#if !data.userIsCreator}
+					<ListenerControls {room} />
+				{/if}
+			</Card.Content>
+		</Card.Root>
+	</div>
 
-{#if data.userIsCreator}
-	<p>You are live!</p>
-	<p>Share this url to another user to let them tune in</p>
-{/if}
+	<div class="flex flex-col" style:height={`calc(100dvh - ${chatInterfaceHeightOffset}px)`}>
+		<ChatComponent {chatService} />
+	</div>
 
-{#if !data.userIsCreator}
-	<Button
-		onclick={() => {
-			room.startAudio();
-		}}>Tune in to {data.streamData.creator}'s stream!</Button
-	>
-{/if}
-
-<ChatComponent {chatService} />
-
-<div class="" id="audio-div"></div>
+	<div class="" id="audio-div"></div>
+</div>
