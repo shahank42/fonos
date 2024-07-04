@@ -3,7 +3,7 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 </script>
 
-<Toaster />
+<Toaster position="top-center" />
 <slot></slot>
 
 <style></style>

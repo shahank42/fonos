@@ -12,8 +12,12 @@
 	import ShareButton from './ui/share-button.svelte';
 	import ParticipantsList from './participants-list.svelte';
 	import { page } from '$app/stores';
+	import IcRoundMicOff from './icons/IcRoundMicOff.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let { room, participantsList }: { room: Room; participantsList: RemoteParticipant[] } = $props();
+
+	let micEnabled = $state(true);
 </script>
 
 <div class="flex w-full justify-between justify-items-center">
@@ -64,7 +68,22 @@
 	</div>
 
 	<div class="flex gap-3">
-		<Toggle class="size-12 rounded-xl" variant="outline"><IcRoundMic class="size-8" /></Toggle>
+		<Toggle
+			class="size-12 rounded-xl"
+			variant="outline"
+			bind:pressed={micEnabled}
+			on:click={async () => {
+				micEnabled = !micEnabled;
+				await room.localParticipant.setMicrophoneEnabled(micEnabled);
+				toast.info(`Microphone ${micEnabled ? 'enabled' : 'disabled'}`)
+			}}>
+			{#if micEnabled}
+				<IcRoundMic class="size-8" />
+			{:else}
+				<IcRoundMicOff class="size-8" />
+			{/if}
+			</Toggle
+		>
 		<Button class="size-12 rounded-xl" variant="destructive" size="icon">
 			<IcRoundStopCircle class="size-8" />
 		</Button>

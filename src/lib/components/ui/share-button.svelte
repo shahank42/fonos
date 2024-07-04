@@ -25,7 +25,7 @@
 		} else {
 			await navigator.clipboard.writeText(url);
 			complete = true;
-			toast('Stream link copied to clipboard');
+			toast.info('Stream link copied to clipboard');
 			setTimeout(() => {
 				complete = false;
 			}, 1500);
