@@ -13,7 +13,7 @@
 	import ParticipantsList from './participants-list.svelte';
 	import { page } from '$app/stores';
 
-	let { room, participantsList }: { room: Room, participantsList: RemoteParticipant[] } = $props();
+	let { room, participantsList }: { room: Room; participantsList: RemoteParticipant[] } = $props();
 </script>
 
 <div class="flex w-full justify-between justify-items-center">
@@ -21,7 +21,7 @@
 		<Sheet.Root>
 			<Sheet.Trigger asChild let:builder>
 				<Button
-					class="h-12 justify-self-start rounded-xl flex gap-1 text-md"
+					class="text-md flex h-12 gap-1 justify-self-start rounded-xl"
 					variant="default"
 					size="sm"
 					builders={[builder]}
@@ -52,11 +52,13 @@
 			<Drawer.Content>
 				<Drawer.Header>
 					<Drawer.Title>Audio Queue</Drawer.Title>
-					<Drawer.Description
-						>Select the sequence of audio to be played during the stream.</Drawer.Description
-					>
+					<Drawer.Description class="text-balance">
+						Select the sequence of audio to be played during the stream.
+					</Drawer.Description>
 				</Drawer.Header>
-				<Drawer.Footer></Drawer.Footer>
+				<Drawer.Footer>
+					<span class="w-full text-center text-muted-foreground">Feature coming soon!</span>
+				</Drawer.Footer>
 			</Drawer.Content>
 		</Drawer.Root>
 	</div>
@@ -68,6 +70,4 @@
 		</Button>
 		<ShareButton url={$page.url.href} title="Example Stream" />
 	</div>
-
-
 </div>

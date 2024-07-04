@@ -35,8 +35,8 @@
 		{#each messages as message}
 			{#if message.from}
 				<div
-					class={cn('flex items-baseline gap-2.5 px-4 py-[1px]', {
-						'bg-secondary text-secondary-foreground': message.from.identity === data.streamData.creator,
+					class={cn('flex items-baseline gap-2.5 px-4 py-[2px]', {
+						'bg-secondary': message.from.identity === data.streamData.creator,
 					})}
 				>
 					<span class="text-secondary-foreground">
@@ -69,12 +69,12 @@
 				type="text"
 				placeholder="Enter Message..."
 				bind:value={currentMessage}
-				class={cn('h-10 rounded-bl-full rounded-tl-full px-4', {
+				class={cn('h-12 rounded-bl-full rounded-tl-full px-4', {
 					'rounded-br-full rounded-tr-full': currentMessage === ''
 				})}
 			/>
 			{#if currentMessage !== ''}
-				<Button size="icon" class="size-10 rounded-br-full rounded-tr-full" type="submit">
+				<Button size="icon" class="size-12 rounded-br-full rounded-tr-full" type="submit">
 					<IcRoundSend class="size-6" />
 				</Button>
 			{/if}
