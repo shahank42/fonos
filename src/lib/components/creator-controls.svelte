@@ -11,6 +11,7 @@
 	import IcBaselineShare from './icons/IcBaselineShare.svelte';
 	import ShareButton from './ui/share-button.svelte';
 	import ParticipantsList from './participants-list.svelte';
+	import { page } from '$app/stores';
 
 	let { room, participantsList }: { room: Room, participantsList: RemoteParticipant[] } = $props();
 </script>
@@ -65,7 +66,7 @@
 		<Button class="size-12 rounded-xl" variant="destructive" size="icon">
 			<IcRoundStopCircle class="size-8" />
 		</Button>
-		<ShareButton url="https://example.com" title="Example Stream" />
+		<ShareButton url={$page.url.href} title="Example Stream" />
 	</div>
 
 
