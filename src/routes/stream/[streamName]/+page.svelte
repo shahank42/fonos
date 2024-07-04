@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_LIVEKIT_SERVER_URL } from '$env/static/public';
-	import { Room, RoomEvent } from 'livekit-client';
+	import { RemoteParticipant, Room, RoomEvent } from 'livekit-client';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -18,6 +18,7 @@
 	const chatService = setupChat(room, { channelTopic: data.streamData.title });
 
 	let chatInterfaceHeightOffset = $state(0);
+	let participantsList = $state<RemoteParticipant[]>([]);
 
 	onMount(async () => {
 		let token = '';
@@ -41,6 +42,19 @@
 		const element = track.attach();
 		document.getElementById('audio-div')?.appendChild(element);
 	});
+
+	// Initially populate participantsList with already joined participants
+	room.remoteParticipants.forEach((participant) => {
+		participantsList.push(participant);
+	});
+
+	room.on(RoomEvent.ParticipantConnected, (participant) => {
+		participantsList.push(participant);
+	});
+
+	room.on(RoomEvent.ParticipantDisconnected, (participant) => {
+		participantsList = participantsList.filter((p) => p.identity !== participant.identity);
+	});
 </script>
 
 <div data-vaul-drawer-wrapper class="flex h-[100dvh] flex-col">
@@ -53,7 +67,7 @@
 					<Card.Description>{data.streamData.description}</Card.Description>
 				</div>
 				{#if data.userIsCreator}
-					<CreatorControls {room} />
+					<CreatorControls {room} {participantsList} />
 				{/if}
 				{#if !data.userIsCreator}
 					<ListenerControls {room} />
