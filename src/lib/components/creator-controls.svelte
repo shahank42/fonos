@@ -17,7 +17,12 @@
 <div class="grid w-full grid-cols-3 justify-between justify-items-center">
 	<Sheet.Root>
 		<Sheet.Trigger asChild let:builder>
-			<Button class="size-12 justify-self-start" variant="default" size="icon" builders={[builder]}>
+			<Button
+				class="size-12 justify-self-start rounded-xl"
+				variant="default"
+				size="icon"
+				builders={[builder]}
+			>
 				<IcSharpPeopleAlt class="size-8" />
 			</Button>
 		</Sheet.Trigger>
@@ -30,8 +35,8 @@
 	</Sheet.Root>
 
 	<div class="flex gap-3">
-		<Toggle class="size-12" variant="outline"><IcRoundMic class="size-8" /></Toggle>
-		<Button class="size-12" variant="destructive" size="icon">
+		<Toggle class="size-12 rounded-xl" variant="outline"><IcRoundMic class="size-8" /></Toggle>
+		<Button class="size-12 rounded-xl" variant="destructive" size="icon">
 			<IcRoundStopCircle class="size-8" />
 		</Button>
 		<ShareButton url="https://example.com" title="Example Stream" />
@@ -39,7 +44,12 @@
 
 	<Drawer.Root shouldScaleBackground>
 		<Drawer.Trigger asChild let:builder>
-			<Button class="size-12 justify-self-end" builders={[builder]} variant="outline" size="icon">
+			<Button
+				class="size-12 justify-self-end rounded-xl"
+				builders={[builder]}
+				variant="outline"
+				size="icon"
+			>
 				<IcSharpQueue class="size-8" />
 			</Button>
 		</Drawer.Trigger>

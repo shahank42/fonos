@@ -33,7 +33,7 @@
 	}
 </script>
 
-<Button onclick={share} class="size-12" variant="outline" size="icon">
+<Button onclick={share} class="size-12 rounded-xl" variant="outline" size="icon">
 	{#if complete}
 		<IcRoundFileCopy class="size-8" />
 	{:else}
